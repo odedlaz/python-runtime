@@ -5,7 +5,11 @@
 #
 
 # Pull base image.
-FROM dockerfile/python
+FROM python:2
+
+RUN \
+	pip install --upgrade pip && \
+	export PATH=$PATH:/usr/local/bin
 
 # Set instructions on build.
 ONBUILD RUN virtualenv /env
@@ -22,6 +26,3 @@ WORKDIR /app
 
 # Define default command.
 CMD ["/env/bin/python", "main.py"]
-
-# Expose ports.
-EXPOSE 8080
