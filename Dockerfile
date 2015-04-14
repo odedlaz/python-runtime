@@ -7,9 +7,10 @@
 # Pull base image.
 FROM python:2
 
-RUN \
-	pip install --upgrade pip && \
-	export PATH=$PATH:/usr/local/bin
+# upgrade pip version to latest
+
+ONBUILD	pip install --upgrade pip
+ONBUILD export PATH=$PATH:/usr/local/bin
 
 # Set instructions on build.
 ONBUILD RUN virtualenv /env
