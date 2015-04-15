@@ -20,7 +20,12 @@ ONBUILD RUN apt-get update && \
   apt-get -y install $(grep -vE "^\s*#" /app/apt-requirements.txt | tr "\n" " ") && \
   rm -rf /var/lib/apt/lists/*
 ONBUILD ADD requirements.txt /app/
-ONBUILD RUN /env/bin/pip install -r /app/requirements.txt
+
+# using 'process-dependency-links' for private repo's
+# it's deprecated but won't be removed until pip supports
+# direct-links, which won't happen soon :)
+# further read:  https://github.com/pypa/pip/issues/2023#issuecomment-76086349
+ONBUILD RUN /env/bin/pip install --process-dependency-links -r /app/requirements.txt
 ONBUILD ADD . /app
 
 # Define working directory.
